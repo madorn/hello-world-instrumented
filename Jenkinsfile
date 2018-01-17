@@ -23,8 +23,7 @@ node {
     echo "No Previous Deployment"
     firstDeploy = true
   }
-}
-
+	
   checkout scm
   sh("printenv")
 
