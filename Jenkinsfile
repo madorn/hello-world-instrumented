@@ -27,6 +27,7 @@ node {
   checkout scm
   sh("printenv")
 
+stages {
    stage('Login to Quay.io') {
             when {
                 branch 'canary' 
