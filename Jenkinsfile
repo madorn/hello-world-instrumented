@@ -27,8 +27,7 @@ node {
   checkout scm
   sh("printenv")
 
-stages {
-   stage('Login to Quay.io') {
+  stage('Login to Quay.io') {
             when {
                 branch 'canary' 
             }
@@ -36,14 +35,4 @@ stages {
                   sh("docker login -u=\"${env.quay_username}\" -p=\"${env.quay_password}\" quay.io")
             }
         }
-	
-    stage('Build Image') {
-            when {
-                branch 'canary' 
-            }
-            steps {
-                  sh("docker build -t ${imageTag} .")
-            }
-    }
-}
 }
