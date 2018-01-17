@@ -26,12 +26,25 @@ node {
 
   checkout scm
   sh("printenv")
+
+   stage('Login to Quay.io') {
+            when {
+                branch 'canary' 
+            }
+            steps {
+                  sh("docker login -u=\"${env.quay_username}\" -p=\"${env.quay_password}\" quay.io")
+            }
+        }
 	
-  stage 'Login to Quay.io'
-  sh("docker login -u=\"${env.quay_username}\" -p=\"${env.quay_password}\" quay.io")
+    stage('Build Image') {
+            when {
+                branch 'canary' 
+            }
+            steps {
+                  sh("docker build -t ${imageTag} .")
+            }
+        }
 	
-  stage 'Build image'
-  sh("docker build -t ${imageTag} .")
 
   stage 'Push image to Quay.io registry'
   sh("docker push ${imageTag}")
